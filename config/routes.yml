@@ -12,3 +12,9 @@ path:
    defaults: { _controller: 'Core\Controller\DefaultController::pathAction', imageSrc:'' }
    requirements:
       imageSrc: .+
+
+grab:
+   path : /grab/{options}/{url}
+   defaults: { _controller: 'Core\Controller\DefaultController::grabAction', url:'' }
+   requirements:
+      url: .+

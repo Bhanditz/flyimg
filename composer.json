@@ -1,11 +1,12 @@
 {
   "name": "flyimg/flyimg",
-  "description": "Server image resizing and cropping on the fly base on ImageMagick+MozJPEG",
+  "description": "A Dockerized Microservice, a PHP application to resize and crop images on the fly. Get optimised images with MozJPEG, WebP or PNG using ImageMagick. Includes face detection, cropping, face blurring, image rotation and many other options. Abstract storage based on FlySystem in order to store images on any provider (local, AWS S3...).",
   "type": "project",
   "keywords": [
     "image",
     "resize",
     "crop",
+    "docker",
     "imageMagick",
     "flysystem",
     "mozjpeg"
@@ -38,7 +39,8 @@
     "phpunit/phpunit": "5.3.*",
     "league/flysystem-aws-s3-v3": "^1.0",
     "twig/twig": "^1.3",
-    "symfony/twig-bridge": "^3.2"
+    "symfony/twig-bridge": "^3.2",
+    "jonnyw/php-phantomjs": "4.*"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "2.*",
@@ -48,5 +50,16 @@
     "psr-4": {
       "Core\\": "src\\Core"
     }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "PhantomInstaller\\Installer::installPhantomJS"
+    ],
+    "post-update-cmd": [
+      "PhantomInstaller\\Installer::installPhantomJS"
+    ]
+  },
+  "config": {
+    "bin-dir": "vendor/bin"
   }
 }

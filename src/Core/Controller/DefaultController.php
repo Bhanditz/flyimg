@@ -3,6 +3,8 @@
 namespace Core\Controller;
 
 use Core\Entity\Image;
+use JonnyW\PhantomJs\Client;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends CoreController
@@ -16,8 +18,8 @@ class DefaultController extends CoreController
     }
 
     /**
-     * @param      $options
-     * @param null $imageSrc
+     * @param string $options
+     * @param null   $imageSrc
      * @return Response
      */
     public function uploadAction($options, $imageSrc = null)
@@ -32,8 +34,8 @@ class DefaultController extends CoreController
     }
 
     /**
-     * @param      $options
-     * @param null $imageSrc
+     * @param string $options
+     * @param null   $imageSrc
      * @return Response
      */
     public function pathAction($options, $imageSrc = null)
@@ -45,5 +47,40 @@ class DefaultController extends CoreController
         }
 
         return $this->generatePathResponse($image);
+    }
+
+    /**
+     * @param string $options
+     * @param null   $url
+     * @return Response
+     */
+    public function grabAction($options, $url = null)
+    {
+        $client = Client::getInstance();
+        $client->getEngine()->setPath(UPLOAD_DIR.'../../vendor/bin/phantomjs');
+//
+//        $width = 800;
+//        $height = 600;
+//        $top = 0;
+//        $left = 0;
+
+        /**
+         * @see \JonnyW\PhantomJs\Http\CaptureRequest
+         **/
+        $request = $client->getMessageFactory()->createCaptureRequest($url, 'GET');
+        $request->setOutputFile(TMP_DIR.rand().'.jpg');
+//        $request->setViewportSize($width, $height);
+//        $request->setCaptureDimensions($width, $height, $top, $left);
+        /**
+         * @see /JonnyW\PhantomJs\Http\Response
+         **/
+        $response = $client->getMessageFactory()->createResponse();
+
+        // Send the request
+        $client->send($request, $response);
+
+        $response = new BinaryFileResponse($request->getOutputFile());
+
+        return $response;
     }
 }
