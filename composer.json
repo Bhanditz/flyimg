@@ -51,14 +51,6 @@
       "Core\\": "src\\Core"
     }
   },
-  "scripts": {
-    "post-install-cmd": [
-      "PhantomInstaller\\Installer::installPhantomJS"
-    ],
-    "post-update-cmd": [
-      "PhantomInstaller\\Installer::installPhantomJS"
-    ]
-  },
   "config": {
     "bin-dir": "vendor/bin"
   }

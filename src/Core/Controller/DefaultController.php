@@ -57,7 +57,7 @@ class DefaultController extends CoreController
     public function grabAction($options, $url = null)
     {
         $client = Client::getInstance();
-        $client->getEngine()->setPath(UPLOAD_DIR.'../../vendor/bin/phantomjs');
+        $client->getEngine()->setPath('/usr/local/bin/phantomjs');
 //
 //        $width = 800;
 //        $height = 600;
